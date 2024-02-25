@@ -1,0 +1,29 @@
+﻿@model e_Ticaret.Models.ViewModels.AuthLoginModelView
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="col-12 text-center">Login</h2>
+		<div class="col-12 col-md-6 offset-md-3">
+			<form asp-controller="Auth" asp-action="Login" method="post">
+				<div class="form-group">
+					<label asp-for="Email"></label>
+					<input asp-for="Email" class="form-control" placeholder="Email" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="Password"></label>
+					<input asp-for="Password" class="form-control" placeholder="Parola" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+				<div class="d-flex justify-content-between">
+					<button type="submit" class="site-btn mr-auto">Giriş</button>
+					@* <a asp-controller="Auth" asp-action="Register" class="site-btn mr-2">Kayıt Ol</a>
+					<a asp-controller="Auth" asp-action="ForgotPassword" class="site-btn">Şifremi Unuttum</a> *@
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,81 @@
+﻿@{
+	ViewBag.Title = "Edit Product";
+
+}
+@model App.Data.Entities.ProductEntity
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h2>Ürün Güncelle</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<form id="createProductForm" asp-controller="Product" asp-action="Create" method="post">
+				<div class="form-group">
+					<label class="form-label" asp-for="Name">Ürün Adı</label>
+					<input asp-for="Name" class="form-control" />
+					<span class=" text-danger" asp-validation-for="Name"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label" asp-for="Details">Detalyar</label>
+					<textarea class="form-control" asp-for="Details"></textarea>
+					<span class=" text-danger" asp-validation-for="Details"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label" asp-for="StockAmount">Stok Adedi</label>
+					<input class="form-control" asp-for="StockAmount">
+					<span class=" text-danger" asp-validation-for="StockAmount"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label" asp-for="Price">Birim Fiyatı</label>
+					<input type="number" class="form-control" asp-for="Price">
+					<span class=" text-danger" asp-validation-for="Price"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label">Aktif/Pasif</label>
+					<br />
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="enabledCheckbox" asp-for="Enabled">
+						<label class="form-check-label" for="enabledCheckbox">
+							Aktif
+						</label>
+					</div>
+					<span class=" text-danger" asp-validation-for="Enabled"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label" asp-for="SellerId">Satıcı Adı</label>
+					<br />
+					<select asp-for="SellerId" asp-items="ViewBag.Satıcılar">
+						<option value="0" selected disabled>Satıcı Seçiniz</option>
+					</select>
+					<br />
+					<br />
+					<span class=" text-danger" asp-validation-for="SellerId"></span>
+				</div>
+				<div class="form-group">
+					<label class="form-label" asp-for="Category.Name">Ürün Kategorisi</label>
+					<br />
+					<select asp-for="CategoryId" asp-items="ViewBag.Kategoriler">
+						<option value="0" selected disabled>Kategori Seçiniz</option>
+					</select>
+					<br />
+					<br />
+					<span class=" text-danger" asp-validation-for="CategoryId"></span>
+				</div>
+				<div class="container text-center">
+					<button type="submit" asp-controller="Product" asp-action="Edit" class="btn site-btn">Ürün Güncelle</button>
+					<button type="button" class="btn site-btn" asp-controller="Home" asp-action="Index">Anasayfa</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+
+	</script>
+	<partial name="_ValidationScriptsPartial" />
+}

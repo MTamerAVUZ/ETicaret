@@ -1,0 +1,53 @@
+﻿@{
+  ViewBag.Title = "Edit Category";
+
+}
+
+@model App.Data.Entities.CategoryEntity;
+
+<h2>Kategori Güncelle</h2>
+
+<form id="createCategoryForm" asp-controller="Category" asp-action="Edit" method="post">
+  <div class="form-group">
+    <label class="form-label" asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span class=" text-danger" asp-validation-for="Name"></span>
+  </div>
+  <div class="form-group">
+    <label class="form-label" asp-for="Tanim">Tanım</label>
+    <textarea class="form-control" asp-for="Tanim"></textarea>
+    <span class=" text-danger" asp-validation-for="Tanim"></span>
+  </div>
+  <div class="form-group">
+    <label class="form-label" asp-for="Color">Kategori Rengi</label>
+    <textarea class="form-control" asp-for="Color"></textarea>
+    <span class=" text-danger" asp-validation-for="Color"></span>
+  </div>
+  <div class="form-group">
+    <label class="form-label" asp-for="IconCssClass">Kategori İkonu</label>
+    <textarea class="form-control" asp-for="IconCssClass"></textarea>
+    <span class=" text-danger" asp-validation-for="IconCssClass"></span>
+  </div>
+  <div class="row text-center">
+  
+    <div class="form-group col-12">
+      <button type="submit" class="btn btn-success">Kategoriyi Güncelle</button>
+      <a type="button" class="btn btn-danger" asp-controller="Category" asp-action="List">Geri Dön</a>
+    </div>
+  </div>
+</form>
+
+@section Scripts {
+
+  <script>
+
+    document.getElementById("createCategoryForm").addEventListener("submit", function (event) {
+      var successMessage = "@ViewData["SuccessMessage"]";
+      if (successMessage) {
+        alert(successMessage);
+      }
+    });
+  </script>
+  <partial name="_ValidationScriptsPartial" />
+
+}

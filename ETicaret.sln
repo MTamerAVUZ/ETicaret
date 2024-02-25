@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "e-Ticaret", "e-Ticaret\e-Ticaret.csproj", "{265A974C-C04C-4740-850C-3DAF338F1F08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Admin\Admin.csproj", "{E0226060-6BDA-4F23-B521-E90C5757D9F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Data", "App.Data\App.Data.csproj", "{16D3F683-F562-45A2-8BB3-3CDD8D87CE8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{265A974C-C04C-4740-850C-3DAF338F1F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{265A974C-C04C-4740-850C-3DAF338F1F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{265A974C-C04C-4740-850C-3DAF338F1F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{265A974C-C04C-4740-850C-3DAF338F1F08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0226060-6BDA-4F23-B521-E90C5757D9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0226060-6BDA-4F23-B521-E90C5757D9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0226060-6BDA-4F23-B521-E90C5757D9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0226060-6BDA-4F23-B521-E90C5757D9F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16D3F683-F562-45A2-8BB3-3CDD8D87CE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D3F683-F562-45A2-8BB3-3CDD8D87CE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D3F683-F562-45A2-8BB3-3CDD8D87CE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D3F683-F562-45A2-8BB3-3CDD8D87CE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C377B73-1935-4555-B87B-92B82506EDFF}
+	EndGlobalSection
+EndGlobal

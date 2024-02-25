@@ -1,0 +1,233 @@
+﻿@{
+	ViewBag.Title = "Product Comments";
+}
+
+@model Admin.Models.ViewModels.ProductCommentViewModel
+
+<h2 class="text-center">Product Comments</h2>
+
+<div class="container">
+	<div class="row justify-content-center mt-5">
+		<div class="col-md-9">
+
+			<div class="form-group">
+
+				<label for="categorySelect">Kategoriler:</label>
+
+				<select asp-for="CategoryId" asp-items="ViewBag.Kategoriler">
+
+					<option value="" selected disabled>Kategori Seçiniz</option>
+
+				</select>
+
+				<label class="form-label" asp-for="Product.Name">Ürünler: </label>
+				<select asp-for="ProductId">
+					<option value="0" selected disabled>Ürün Seçiniz</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+			</div>
+
+
+			<div>
+				<h3>Comments</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>İşlemler</th>
+							<th>Yorum</th>
+							<th>Yıldız Sayısı</th>
+							<th>Kullanıcı</th>
+							<th>Onaylandı Mı ? </th>
+						</tr>
+					</thead>
+					<tbody id="commentsBody">
+						<!-- Comments will be populated here -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+@section scripts {
+	<script>
+		$("#CategoryId").change(function (e) {
+			console.log("Category selected:", e.target.value);
+			var id = e.target.value;
+
+			$("#ProductId").empty();
+			$("#ProductId").append(new Option("Ürün Seçiniz", 0));
+
+			$.ajax({
+				url: `/comment/${id}/products`,
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({ id: id }),
+				success: function (response) {
+					console.log("Products:", response);
+					$.each(response, function () {
+						$("#ProductId").append(new Option(this.name, this.id));
+					});
+				},
+				error: function (xhr, status, error) {
+					console.error('Error fetching products:', error);
+				}
+			});
+		});
+
+		$("#ProductId").change(function (e) {
+			console.log("Product selected:", e.target.value);
+			var productId = e.target.value;
+
+			$.ajax({
+				url: `/comment/${productId}/comments`,
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({ productId: productId }),
+				success: function (response) {
+					console.log("Comments:", response);
+					var commentsBody = $("#commentsBody");
+					commentsBody.empty();
+					$.each(response, function (index, comment) {
+						commentsBody.append(`
+						<tr>
+								<td>
+										<button class="btn-sm btn-success approve-btn my-1" data-comment-id="${comment.id}">Yorumu Onayla</button>
+										<button class="btn-sm btn-danger delete-btn my-1" data-comment-id="${comment.id}">Yorumu Sil</button>
+								</td>
+								<td>${comment.text}</td>
+								<td>${comment.starCount}</td>
+								<td>${comment.user.userFullName}</td>
+								<td>${comment.isConfirmed ? "Evet":"Hayır"}</td>
+								<td class="comment-id" style="display:none;">${comment.id}</td>
+						</tr>
+				`);
+					});
+
+				},
+				error: function (xhr, status, error) {
+					console.error('Error fetching comments:', error);
+				}
+			});
+		});
+
+		$("#commentsBody").on("click", ".approve-btn", function () {
+			var id = $(this).closest("tr").find(".comment-id").text(); 		
+			var confirmation = confirm("Bu yorumu onaylamak istediğinize emin misiniz?");
+						
+			if (confirmation) {				
+				$.ajax({
+					url: `/comment/${id}/approve`,
+					type: "POST",
+					success: function (response) {						
+						console.log("Comment approved successfully");
+					},
+					error: function (xhr, status, error) {						
+						console.error('Error approving comment:', error);
+					}
+				});
+			}
+		});
+
+		$("#commentsBody").on("click", ".delete-btn", function () {
+			var id = $(this).data("comment-id");
+			var row = $(this).closest("tr");
+
+			var confirmation = confirm("Bu yorumu silmek istediğinize emin misiniz?");
+			if (confirmation) {
+				$.ajax({
+					url: `/comment/${id}/delete`,
+					type: "POST",
+					success: function (response) {
+						console.log("Comment deleted successfully");						
+						row.remove();
+					},
+					error: function (xhr, status, error) {
+						console.error('Error deleting comment:', error);
+					}
+				});
+			}
+		});
+
+	</script>
+}
+
+@* @section scripts {
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const categorySelect = document.getElementById('categorySelect');
+      const productSelect = document.getElementById('productSelect');
+      const commentsBody = document.getElementById('commentsBody');
+
+      // Function to fetch products based on the selected category
+      function fetchProducts(categoryId) {
+        fetch('/comment/UrunGetir', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: categoryId })
+        })
+          .then(response => response.json())
+          .then(products => {
+            productSelect.innerHTML = '<option value="">Select</option>';
+            products.forEach(product => {
+              productSelect.innerHTML += `<option value="${product.Id}">${product.Name}</option>`;
+            });
+            productSelect.disabled = false;
+          })
+          .catch(error => console.error('Error fetching products:', error));
+      }
+
+      // Function to fetch comments for the selected product
+      function fetchComments(productId) {
+        fetch(`/comment/YorumGetir?id=${productId}`, {
+          method: 'POST'
+        })
+          .then(response => response.json())
+          .then(comments => {
+            commentsBody.innerHTML = '';
+            comments.forEach(comment => {
+              commentsBody.innerHTML += `
+                                    <tr>
+                                        <td>${comment.CommentText}</td>
+                                        <td>${comment.User.FullName}</td>
+                                    </tr>
+                                `;
+            });
+          })
+          .catch(error => console.error('Error fetching comments:', error));
+      }
+
+      // Event listener for category select change
+      categorySelect.addEventListener('change', function () {
+        const categoryId = this.value;
+        if (categoryId) {
+          fetchProducts(categoryId);
+        } else {
+          productSelect.innerHTML = '<option value="">Select</option>';
+          productSelect.disabled = true;
+          commentsBody.innerHTML = ''; // Clear comments when category is deselected
+        }
+      });
+
+      // Event listener for product select change
+      productSelect.addEventListener('change', function () {
+        const productId = this.value;
+        if (productId) {
+          fetchComments(productId);
+        } else {
+          commentsBody.innerHTML = '';
+        }
+      });
+    });
+  </script>
+} *@
+
+
+

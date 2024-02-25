@@ -1,0 +1,69 @@
+﻿@using App.Data.Entities
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var userName = HttpContextAccessor.HttpContext.Session.GetString("user");
+	var isAuthenticated = !string.IsNullOrEmpty(userName);
+}
+
+
+
+@if (isAuthenticated)
+{
+	var user = System.Text.Json.JsonSerializer.Deserialize<UserEntity>(userName);
+	<div class="row">
+		<div class="col-2">
+
+		</div>
+		<div class="col-8">
+			<table class="table table-striped table-bordered ">
+				<thead>
+					<tr>
+						<th colspan="5">
+							>Hoşgeldin, @user.FirstName!
+						</th>
+					</tr>
+					<tr>
+						<th>Kullanıcı ID</th>
+						<th>Email</th>
+						<th>Adı</th>
+						<th>Soyadı</th>
+						<th>Aktif mi?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>@user.Id</td>
+						<td>@user.Email</td>
+						<td>@user.FirstName</td>
+						<td>@user.LastName</td>
+						<td>@(user.Enabled ? "Evet" : "Hayır")</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>		
+	</div>
+	<div class="row">
+		<div class="col-4"></div>
+		<div class="col-8">
+			<a asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out site-btn">  Çıkış</i> </a>
+				<a asp-controller="Home" asp-action="Index"><i class="fa fa-home site-btn">  Ana Sayfa</i> </a>
+		</div>
+	</div>
+}
+else
+{
+	<br />
+	<br />
+
+	<div class="text-center">
+		<h4>Lütfen giriş yapın!! </h4>
+	</div>
+	<br />
+	<br />
+
+	<div class="text-center">
+		<a asp-controller="Auth" asp-action="Login"><i class="site-btn"></i> Giriş Yap</a>
+	</div>
+}

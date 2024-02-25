@@ -1,0 +1,69 @@
+﻿@model e_Ticaret.Models.ViewModels.AuthRegisterViewModel
+
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-lg-7">
+			<div class="card shadow-lg border-0 rounded-lg mt-5">
+				<div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+				<div class="card-body">
+
+					<form asp-controller="Auth" asp-action="Register" method="post">
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<label asp-for="FirstName" for="inputFirstName"></label>
+									<input asp-for="FirstName" class="form-control" id="inputFirstName" type="text" placeholder="Adınız" />							
+									<span asp-validation-for="FirstName" class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-floating">
+									<label asp-for="LastName" for="inputLastName"></label>
+									<input asp-for="LastName" class="form-control" id="inputLastName" type="text" placeholder="Soyadınız" />
+									<span asp-validation-for="LastName" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-floating mb-3">
+							<label asp-for="Email" for="inputEmail"></label>
+							<input asp-for="Email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+							<span asp-validation-for="Email" class="text-danger"></span>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<label asp-for="Password" for="inputPassword"></label>
+									<input asp-for ="Password" class="form-control" id="inputPassword" type="password" placeholder="Parola" />
+									<span asp-validation-for="Password" class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-floating mb-3 mb-md-0">
+									<label asp-for="Password" for="inputPassword"></label>
+									<input asp-for="Password" class="form-control" id="inputPassword" type="password" placeholder="Parolayı Doğrula" />
+									<span asp-validation-for="Password" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-4 mb-0 text-center">
+							<div class="d-grid">
+								<button type="submit" class="site-btn">Kayıt Ol</button>
+								<a asp-controller="Home" asp-action="Index" type="button" class="site-btn">Anasayfa</a>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer text-center py-3">
+					<div class="small"><a asp-controller="Auth" asp-action="Login" class="text-success">Zaten Üye misiniz ? Giriş'e Gidin.</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

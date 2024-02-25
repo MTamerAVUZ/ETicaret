@@ -1,0 +1,85 @@
+﻿@{
+	ViewBag.Title = "List Products";
+
+}
+
+@model IEnumerable<App.Data.Entities.ProductEntity>;
+
+<h1 class="text-center my-5">Ürün Listesi</h1>
+
+
+@if (Model.Any())
+{
+	<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>İşlemler</th>
+			<th>Ürün ID</th>
+			<th>Ürün Satıcı Adı</th>
+			<th>Ürün Kategorisi</th>
+			<th>Ürün Adı</th>
+			<th>Ürün Fiyatı</th>
+			<th>Ürün Tanımı</th>
+			<th>Ürün Stok Sayısı</th>
+			<th>Ürün Aktifmi ?</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					<a class="btn btn-danger btn-sm my-1 delete-btn" asp-controller="Product" asp-action="Index">Ürünü Sil</a>
+				</td>
+				 <td>@item.Id</td> 
+				 <td>@item.User.UserFullName</td> 
+				<td>@item.Category.Name</td>
+				<td>@item.Name</td>
+				<td>@item.Price</td>
+				<td>@item.Details</td>
+				<td>@item.StockAmount</td>
+				<td>@item.Enabled</td>
+			</tr>
+		}
+	</tbody>
+</table>
+}
+else
+{
+	<div class="text-center mt-5 my-5">
+		<h4>Gösterilecek Ürün Yok</h4>
+	</div>
+}
+
+
+<div class="row">
+	<div class="col-3"></div>
+	<div class="col-6">
+		@*<a class="btn btn-success mt-3 modal-dialog-centered justify-content-center" asp-controller="Product" asp-action="Create">Kategori Oluştur</a>*@
+		<a asp-controller="Home" asp-action="Index">Anasayfa</a>
+		<a class="btn btn-secondary mt-3 modal-dialog-centered justify-content-center" href="/Home/Index">Anasayfa</a>
+	</div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var deleteButtons = document.querySelectorAll('.delete-btn');
+
+			deleteButtons.forEach(function (button) {
+				button.addEventListener('click', function (event) {
+
+					var result = confirm('Bu ürünü silmek istediğinize emin misiniz??');
+					if (!result) {
+						event.preventDefault();
+					}
+				});
+			});
+		});
+	</script>
+}

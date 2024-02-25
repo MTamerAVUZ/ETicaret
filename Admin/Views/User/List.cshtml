@@ -1,0 +1,95 @@
+﻿@{
+	ViewBag.Title = "User List";
+}
+
+
+@model IEnumerable<App.Data.Entities.UserEntity>
+
+<h1 class="text-center my-5">Kullanıcı Listesi</h1>
+
+@if (Model.Any())
+{
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>İşlemler</th>
+				<th>Kullanıcı ID</th>
+				<th>Email</th>
+				<th>Adı</th>
+				<th>Soyadı</th>
+				<th>Rol</th>
+				<th>Aktif mi?</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var user in Model)
+			{
+				<tr>
+					<td>
+						@* <a class="btn btn-danger btn-sm my-1 delete-btn" asp-controller="User" asp-action="Delete">Kullanıcıyı Sil</a> *@
+						<a asp-controller="User" asp-action="Approve" asp-route-id="@user.Id" class="btn btn-success btn-sm my-1 approve-btn">Kullanıcıyı Satıcı Olarak Onayla</a>
+
+					</td>
+					<td>@user.Id</td>
+					<td>@user.Email</td>
+					<td>@user.FirstName</td>
+					<td>@user.LastName</td>
+					<td>
+						@foreach (var userRole in user.UserRoles)
+						{
+							var role = userRole.Role; // Accessing the RoleEntity directly
+							<span>@role.Name</span>
+
+							<br />
+						}
+					</td>
+					<td>@(user.Enabled ? "Evet" : "Hayır")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<div class="text-center mt-5 my-5">
+		<h4>Gösterilecek Kullanıcı Yok</h4>
+	</div>
+}
+
+<div class="row">
+	<div class="col-3"></div>
+	<div class="col-6">
+		<a asp-controller="Home" asp-action="Index">Anasayfa</a>
+		<a class="btn btn-secondary mt-3 modal-dialog-centered justify-content-center" href="/Home/Index">Anasayfa</a>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var approveButtons = document.querySelectorAll('.approve-btn');
+			approveButtons.forEach(function (button) {
+				button.addEventListener('click', function (event) {
+					var result = confirm('Bu kullanıcıyı satıcı olarak onaylamak istediğinize emin misiniz?');
+					if (!result) {
+						event.preventDefault();
+					}
+				});
+			});
+
+			var deleteButtons = document.querySelectorAll('.delete-btn');
+			deleteButtons.forEach(function (button) {
+				button.addEventListener('click', function (event) {
+					var result = confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');
+					if (!result) {
+						event.preventDefault();
+					}
+				});
+			});
+
+
+		});
+		</script>
+
+
+}
